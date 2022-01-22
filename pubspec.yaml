@@ -25,6 +25,7 @@ dependencies:
   
   
   liquid_swipe: ^2.1.1
+  http: ^0.13.4
   
   fluttertoast: ^8.0.8
   flutter:
@@ -43,6 +44,7 @@ dependencies:
   firebase_core: ^1.10.0
   firebase_auth_web: ^3.3.1
   font_awesome_flutter: ^9.2.0
+  image_picker: any
 
 dev_dependencies:
   flutter_test:
@@ -60,8 +62,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - images/a.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

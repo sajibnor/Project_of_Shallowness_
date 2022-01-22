@@ -7,11 +7,14 @@ import 'package:myflutterdemo/ab13d39.dart';
 import 'package:myflutterdemo/ab14cls32.dart';
 import 'package:myflutterdemo/ab15d38.dart';
 import 'package:myflutterdemo/ab16d44.dart';
+import 'package:myflutterdemo/apiui.dart';
 import 'package:myflutterdemo/b.dart';
 import 'package:myflutterdemo/cls15d39.dart';
 import 'package:myflutterdemo/d.dart';
 import 'package:myflutterdemo/dismis.dart';
 import 'package:myflutterdemo/drw.dart';
+import 'package:myflutterdemo/newbatch.dart';
+import 'package:myflutterdemo/newbatch2.dart';
 import 'package:myflutterdemo/page1.dart';
 import 'package:myflutterdemo/page2.dart';
 import 'package:myflutterdemo/page3.dart';
@@ -24,20 +27,15 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:myflutterdemo/second.dart';
 
 import 'chair (2).dart';
+import './2.dart';
 
 Future main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-
-  //    sajibmridha.nor 
-
-
-
-
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: RegiDart(), 
+    home: Imagepic(),
   ));
 }
 
@@ -127,6 +125,9 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
   var usg = "";
   var usad = "";
 
+  TextEditingController ussername = TextEditingController();
+  var usserage = TextEditingController();
+
   TextEditingController userName = TextEditingController();
   TextEditingController userage = TextEditingController();
   TextEditingController useraddress = TextEditingController();
@@ -140,6 +141,10 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              TextField(
+                  controller: ussername,
+                  decoration: InputDecoration(labelText: "Name")),
+
               TextField(
                   decoration: InputDecoration(
                     labelText: "User Name",
@@ -158,7 +163,7 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
               //   decoration: InputDecoration(labelText: "Update"),
               //   controller: userupdate,
               // ),
-              Row(children: [
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
                 ElevatedButton(onPressed: _adddata, child: Text("Click")),
                 Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -185,6 +190,10 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                     )),
                 ElevatedButton(
                     onPressed: () async {
+                      // UserCredential userCredential =await FirebaseAuth.instance
+                      //     .createUserWithEmailAndPassword(
+                      //         email: "a@gmail.com", password: "123456");
+
                       UserCredential userCredential = await FirebaseAuth
                           .instance
                           .createUserWithEmailAndPassword(
@@ -207,7 +216,17 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                       // }
                     },
                     child: Text("Signup")),
-                ElevatedButton(onPressed: () {}, child: Text("sing"))
+                ElevatedButton(
+                    onPressed: () {
+                      users.doc(iddoc).set({
+                        "Name": "Nadim",
+                        "Age": "20",
+                        "Address": "ctg",
+                        "Gender": "f"
+                      });
+                    },
+                    child: Text("Set Data")),
+                ElevatedButton(onPressed: () {}, child: Text("Delete")),
               ]),
 
               InkWell(
@@ -229,6 +248,40 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                   ),
                 ),
               ),
+
+              // StreamBuilder(
+              //   stream: _stream,
+
+              //   builder:(BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot){
+
+              //    if (snapshot.hasError) {
+              //      return Text("Data is not found");
+
+              //    }
+              //    if (snapshot.connectionState==ConnectionState.none) {
+              //      return CircularProgressIndicator();
+              //    }
+
+              //   return Container(
+              //     height: 400,
+              //     child: ListView.builder(
+
+              //       itemCount: snapshot.data!.docs.length,
+
+              //       itemBuilder:(context,index){
+              //         return Column(children: [
+              //           ListTile(title: Text(snapshot.data!.docs[index]["name"]),),
+              //            ListTile(title: Text(snapshot.data!.docs[index]["age"]),),
+              //             ListTile(title: Text(snapshot.data!.docs[index]["gender"]),)
+
+              //         ],)
+              //       }
+
+              //        ),
+              //   )
+              // }
+
+              //  )
 
               // StreamBuilder(
               //     stream: _stream,
@@ -280,7 +333,11 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                             snapshot.data!.docs.forEach((element) {
                               iddoc = element.id;
                             });
-                            print(iddoc);
+
+                            // snapshot.data!.docs.forEach((element) {
+                            //   iddoc = element.id;
+                            // });
+                            // print(iddoc);
 
                             return Container(
                               child: Card(
@@ -290,7 +347,26 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              setState(() {
+                                                iddoc = snapshot
+                                                    .data!.docs[index].id;
+                                              });
+                                              users
+                                                  .doc(iddoc)
+                                                  .delete()
+                                                  .then((value) =>
+                                                      Text("Succesful"))
+                                                  .onError(
+                                                      (error, stackTrace) =>
+                                                          Text("${error}"));
+
+                                              // setState(() {
+                                              //   iddoc = snapshot
+                                              //       .data!.docs[index].id;
+                                              // });
+                                              // users.doc(iddoc).delete();
+                                            },
                                             icon: Icon(Icons.delete)),
                                         // ElevatedButton(
                                         //     onPressed: () {
@@ -328,17 +404,17 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                                       children: [
                                         ElevatedButton(
                                             onPressed: () {
-                                              setState(() {
-                                                editId = snapshot
-                                                    .data!.docs[index].id;
-                                              });
-                                              users.doc(editId).get().then(
-                                                  (value) =>
-                                                      usname = value["name"]);
+                                              // setState(() {
+                                              //   editId = snapshot
+                                              //       .data!.docs[index].id;
+                                              // });
+                                              // users.doc(editId).get().then(
+                                              //     (value) =>
+                                              //         usname = value["name"]);
 
-                                              users.doc(editId).get().then(
-                                                  (value) =>
-                                                      {usname = value["Name"]});
+                                              // users.doc(editId).get().then(
+                                              //     (value) =>
+                                              //         {usname = value["Name"]});
 
                                               // snapshot.data!.docs[editId]["Age"];
                                               // var s = users.doc(editId).get().then(
@@ -378,7 +454,6 @@ class _FirebaseDemoState extends State<FirebaseDemo> {
                                             child: Text("Delete")),
                                       ],
                                     ),
-                                    Text(usname)
                                   ],
                                 ),
                               ),

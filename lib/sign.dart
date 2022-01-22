@@ -67,8 +67,13 @@ class _State extends State<RegiDart> {
                 InkWell(
                     onTap: () async {
                       UserCredential userCredential =
-                          await _auth.createUserWithEmailAndPassword(
+                          await FirebaseAuth.instance.createUserWithEmailAndPassword(
                               email: usermail.text, password: userpass.text);
+                              if (userCredential.user!=null) {
+                                 Navigator.push(
+                          context, MaterialPageRoute(builder: (_) => HelloDart()));
+                                
+                              }
 
                       // Navigator.push(
                       //     context, MaterialPageRoute(builder: (_) => Page2()));

@@ -20,6 +20,8 @@ class _State extends State<HelloDart> {
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
+          centerTitle: true,
+
           title: Text(
             'Sign In',
             style: TextStyle(color: Colors.green),
@@ -65,6 +67,14 @@ class _State extends State<HelloDart> {
                 ),
                 InkWell(
                     onTap: () async {
+
+                   
+
+
+
+
+
+
                       try {
                         UserCredential userCredential = await FirebaseAuth
                             .instance
@@ -90,16 +100,20 @@ class _State extends State<HelloDart> {
                       // Navigator.push(
                       //     context, MaterialPageRoute(builder: (_) => Page2()));
                     },
-                    child: Container(
-                      height: 35,
-                      width: 350,
-                      decoration: BoxDecoration(
-                          color: Colors.green,
-                          borderRadius: BorderRadius.all(Radius.circular(15))),
-                      child: Center(
-                        child: Text(
-                          'Log In',
-                          style: TextStyle(color: Colors.white, fontSize: 25),
+                    child: Semantics(
+                      label: "hello sajib",
+                      child: Container(
+                        height: 35,
+                        width: 350,
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(15))),
+                        child: Center(
+                          child: Text(
+                            'Log In',
+                            style: TextStyle(color: Colors.white, fontSize: 25),
+                          ),
                         ),
                       ),
                     )),
